@@ -11,7 +11,7 @@ export const CenterElement = ({ share, locked, onLockClick }) => {
 	return (
 		<ElementBox>
 			<Typography>
-				{share} %
+				{Math.round(share)} %
 			</Typography>
 			{
 				locked
