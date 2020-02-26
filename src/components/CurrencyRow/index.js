@@ -14,7 +14,7 @@ const CloseIcon = styled(Close)({
 	cursor: 'pointer',
 });
 
-export const CurrencyRow = ({ currency, share, changeShare, onEndChangingShare, disabledSlider, onLockClick, deleteCurrency }) => {
+export const CurrencyRow = ({ currency, share, changeShare, disabledSlider, onLockClick, deleteCurrency }) => {
 	return (
 		<CurrencyRowPaper elevation={2}>
 			<Grid container justify="space-between">
@@ -35,7 +35,6 @@ export const CurrencyRow = ({ currency, share, changeShare, onEndChangingShare, 
 				<Grid item style={{ width: '100%' }}>
 					<CurrencySlider
 						value={share} step={1}
-						onChangeCommitted={(e, value) => onEndChangingShare(value)}
 						onChange={(e, value) => changeShare(value)}
 						defaultValue={20} disabled={disabledSlider}
 					/>

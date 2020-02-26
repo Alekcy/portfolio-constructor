@@ -5,7 +5,6 @@ import { Paper, Typography } from '@material-ui/core';
 import { CurrencyRow, AddCurrencyBlock, SharesColorsBlock } from "../../components";
 import {
 	changeShare,
-	endChangingShare,
 	lockCurrency,
 	deleteCurrency,
 	addCurrency,
@@ -33,10 +32,6 @@ export const PortfolioConstructor = () => {
 						currency={currency}
 						deleteCurrency={currencyName => dispatch(deleteCurrency(currencyName))}
 						share={currenciesList[currency].share}
-						onEndChangingShare={share => dispatch(endChangingShare({
-							share,
-							currencyName: currency,
-						}))}
 						changeShare={share => dispatch(changeShare({
 								share,
 								currencyName: currency,

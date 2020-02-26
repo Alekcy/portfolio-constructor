@@ -21,13 +21,6 @@ export function changeShare(changedCurrency) {
 	}
 }
 
-export function endChangingShare(changedCurrency) {
-	return {
-		type: END_CHANGING_SHARE,
-		payload: changedCurrency
-	}
-}
-
 export function lockCurrency(currencyName) {
 	return {
 		type: LOCK,

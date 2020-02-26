@@ -4,7 +4,7 @@ const initialState = {
 	currenciesList: {
 		BTC: {
 			share: 33,
-			locked: true,
+			locked: false,
 		},
 		ETH: {
 			share: 33,
@@ -35,7 +35,7 @@ export default function reduce(state = initialState, action = {}) {
 			return {
 				currenciesList: listWithoutDeleted
 			};
-		case END_CHANGING_SHARE:
+		case CHANGE_SHARE:
 			let currenciesNew = {};
 			let lockedShare = getLockedShare(state.currenciesList);
 
@@ -69,19 +69,6 @@ export default function reduce(state = initialState, action = {}) {
 			});
 			return {
 				currenciesList: currenciesNew,
-			};
-		case CHANGE_SHARE:
-			let currencies = {...state.currenciesList};
-			let lockedShares = getLockedShare(state.currenciesList);
-			console.log(lockedShares)
-			if ((100 - lockedShares) >= action.payload.share) {
-				currencies[action.payload.currencyName] = {
-					...currencies[action.payload.currencyName],
-					share: action.payload.share,
-				};
-			}
-			return {
-				currenciesList: currencies,
 			};
 		case LOCK:
 			return {
