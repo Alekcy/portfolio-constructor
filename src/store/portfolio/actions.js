@@ -1,4 +1,4 @@
-import { ADD_CURRENCY, CHANGE_SHARE, DELETE_CURRENCY, END_CHANGING_SHARE } from './actionTypes';
+import { ADD_CURRENCY, CHANGE_SHARE, DELETE_CURRENCY, END_CHANGING_SHARE, LOCK } from './actionTypes';
 
 export function addCurrency(currency) {
 	return {
@@ -25,5 +25,12 @@ export function endChangingShare(changedCurrency) {
 	return {
 		type: END_CHANGING_SHARE,
 		payload: changedCurrency
+	}
+}
+
+export function lockCurrency(currencyName) {
+	return {
+		type: LOCK,
+		payload: currencyName
 	}
 }

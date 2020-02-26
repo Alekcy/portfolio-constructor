@@ -1,38 +1,54 @@
-import { CHANGE_SHARE, END_CHANGING_SHARE, DELETE_CURRENCY, ADD_CURRENCY } from "./actionTypes";
+import { CHANGE_SHARE, END_CHANGING_SHARE, DELETE_CURRENCY, ADD_CURRENCY, LOCK } from "./actionTypes";
 
 const initialState = {
 	currenciesList: {
-		BTC: 33,
-		ETH: 33,
-		XRP: 33,
-	} /*[
-		{
-			currencyName: 'BTC',
-			share: 33.3,
+		BTC: {
+			share: 33,
+			locked: true,
 		},
-		{
-			currencyName: 'ETH',
-			share: 33.3,
+		ETH: {
+			share: 33,
+			locked: false,
 		},
-		{
-			currencyName: 'XRP',
-			share: 33.3,
-		}
-	]*/
+		XRP: {
+			share: 33,
+			locked: false,
+		},
+	}
 };
 
 export default function reduce(state = initialState, action = {}) {
 	switch (action.type) {
 		case END_CHANGING_SHARE:
 			let currenciesNew = {};
-			const share = action.payload.share;
-			currenciesNew[action.payload.currencyName] = share;
+			let lockedShare = getLockedShare(state.currenciesList);
+
+			if ((100 - lockedShare) >= action.payload.share) {
+				currenciesNew[action.payload.currencyName] = {
+					...state.currenciesList[action.payload.currencyName],
+					share: action.payload.share,
+				};
+			} else {
+				currenciesNew[action.payload.currencyName] = {
+					...state.currenciesList[action.payload.currencyName],
+					share: 100 - lockedShare,
+				};
+			}
+			const share = currenciesNew[action.payload.currencyName].share + lockedShare;
+
 			let otherCurrenciesShare = 100 - share;
-			let shareForOneOtherCurrency = otherCurrenciesShare / (Object.keys(state.currenciesList).length - 1);
-			console.log(otherCurrenciesShare, shareForOneOtherCurrency)
+			let length = Object.keys(state.currenciesList).filter(currency => !state.currenciesList[currency].locked).length - 1;
+			let shareForOneOtherCurrency = otherCurrenciesShare / length;
 			Object.keys(state.currenciesList).forEach(currencyName => {
 				if (currencyName !== action.payload.currencyName) {
-					currenciesNew[currencyName] = shareForOneOtherCurrency;
+					if (!state.currenciesList[currencyName].locked) {
+						currenciesNew[currencyName] = {
+							...state.currenciesList[currencyName],
+							share: shareForOneOtherCurrency,
+						};
+					} else {
+						currenciesNew[currencyName] = {...state.currenciesList[currencyName]};
+					}
 				}
 			});
 			return {
@@ -40,11 +56,38 @@ export default function reduce(state = initialState, action = {}) {
 			};
 		case CHANGE_SHARE:
 			let currencies = {...state.currenciesList};
-			currencies[action.payload.currencyName] = action.payload.share;
+			let lockedShares = getLockedShare(state.currenciesList);
+			console.log(lockedShares)
+			if ((100 - lockedShares) >= action.payload.share) {
+				currencies[action.payload.currencyName] = {
+					...currencies[action.payload.currencyName],
+					share: action.payload.share,
+				};
+			}
 			return {
 				currenciesList: currencies,
+			};
+		case LOCK:
+			return {
+				currenciesList: {
+					...state.currenciesList,
+					[action.payload]: {
+						...state.currenciesList[action.payload],
+						locked: !state.currenciesList[action.payload].locked
+					}
+				}
 			};
 		default:
 			return state;
 	}
+}
+
+function getLockedShare(currenciesList) {
+	let lockedShare = 0;
+	Object.keys(currenciesList).forEach(currency => {
+		if (currenciesList[currency].locked) {
+			lockedShare += currenciesList[currency].share;
+		}
+	});
+	return lockedShare;
 }
