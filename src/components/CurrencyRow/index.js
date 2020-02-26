@@ -34,7 +34,7 @@ export const CurrencyRow = ({ currency, share, changeShare, onEndChangingShare, 
 			<Grid container>
 				<Grid item style={{ width: '100%' }}>
 					<CurrencySlider
-						value={share} step={1} valueLabelDisplay="auto"
+						value={share} step={1}
 						onChangeCommitted={(e, value) => onEndChangingShare(value)}
 						onChange={(e, value) => changeShare(value)}
 						defaultValue={20} disabled={disabledSlider}

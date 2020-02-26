@@ -1,7 +1,7 @@
 export const currenciesColors = {
-	BTC: 'red',
-	ETH: 'blue',
+	BTC: '#fd9903',
+	ETH: '#405cf1',
 	XRP: 'black',
-	BNB: 'yellow',
-	LTC: 'green'
+	BNB: '#f2bb2b',
+	LTC: '#315e9d'
 };
