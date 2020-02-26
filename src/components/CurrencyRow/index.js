@@ -4,13 +4,17 @@ import { styled } from '@material-ui/core/styles';
 import { CurrencyWithColorCircle } from './CurrencyWIthColorCircle';
 import { CenterElement } from "./CenterElement";
 import { CurrencySlider } from "./CurrencySlider";
+import { Close } from '@material-ui/icons';
 
 const CurrencyRowPaper = styled(Paper)({
-	padding: 10,
+	padding: 30,
 	marginBottom: 5,
 });
+const CloseIcon = styled(Close)({
+	cursor: 'pointer',
+});
 
-export const CurrencyRow = ({ currency, share, changeShare, onEndChangingShare, disabledSlider, onLockClick }) => {
+export const CurrencyRow = ({ currency, share, changeShare, onEndChangingShare, disabledSlider, onLockClick, deleteCurrency }) => {
 	return (
 		<CurrencyRowPaper elevation={2}>
 			<Grid container justify="space-between">
@@ -18,10 +22,13 @@ export const CurrencyRow = ({ currency, share, changeShare, onEndChangingShare, 
 					<CurrencyWithColorCircle currencyName={currency} />
 				</Grid>
 				<Grid item>
-					<CenterElement share={share} locked={disabledSlider} onLockClick={() => onLockClick(currency)} />
+					<CenterElement
+						share={share} locked={disabledSlider}
+						onLockClick={() => onLockClick(currency)}
+					/>
 				</Grid>
 				<Grid item>
-					<CurrencyWithColorCircle currencyName={currency} />
+					<CloseIcon onClick={() => deleteCurrency(currency)} fontSize="small" color="error" />
 				</Grid>
 			</Grid>
 			<Grid container>

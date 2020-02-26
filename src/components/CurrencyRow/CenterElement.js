@@ -15,8 +15,8 @@ export const CenterElement = ({ share, locked, onLockClick }) => {
 			</Typography>
 			{
 				locked
-					? <LockIcon onClick={onLockClick} />
-					: <LockOpenIcon onClick={onLockClick} />
+					? <LockIcon fontSize="small" onClick={onLockClick} />
+					: <LockOpenIcon fontSize="small" onClick={onLockClick} />
 			}
 		</ElementBox>
 	);

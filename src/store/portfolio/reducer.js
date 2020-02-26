@@ -19,6 +19,22 @@ const initialState = {
 
 export default function reduce(state = initialState, action = {}) {
 	switch (action.type) {
+		case ADD_CURRENCY:
+			return {
+				currenciesList: {
+					...state.currenciesList,
+					[action.payload]: {
+						share: 0,
+						locked: false,
+					}
+				}
+			};
+		case DELETE_CURRENCY:
+			let listWithoutDeleted = {...state.currenciesList};
+			delete listWithoutDeleted[action.payload];
+			return {
+				currenciesList: listWithoutDeleted
+			};
 		case END_CHANGING_SHARE:
 			let currenciesNew = {};
 			let lockedShare = getLockedShare(state.currenciesList);
@@ -91,3 +107,4 @@ function getLockedShare(currenciesList) {
 	});
 	return lockedShare;
 }
+

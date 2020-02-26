@@ -2,8 +2,14 @@ import * as React from 'react';
 import { styled } from '@material-ui/core/styles';
 import { useSelector, useDispatch } from 'react-redux';
 import { Paper } from '@material-ui/core';
-import { CurrencyRow } from "../../components";
-import { changeShare, endChangingShare, lockCurrency } from "../../store/portfolio/actions";
+import { CurrencyRow, AddCurrencyBlock } from "../../components";
+import {
+	changeShare,
+	endChangingShare,
+	lockCurrency,
+	deleteCurrency,
+	addCurrency,
+} from "../../store/portfolio/actions";
 
 const PortfolioContainerPaper = styled(Paper)({
 	padding: 100,
@@ -20,6 +26,7 @@ export const PortfolioConstructor = () => {
 					<CurrencyRow
 						disabledSlider={currenciesList[currency].locked}
 						currency={currency}
+						deleteCurrency={currencyName => dispatch(deleteCurrency(currencyName))}
 						share={currenciesList[currency].share}
 						onEndChangingShare={share => dispatch(endChangingShare({
 							share,
@@ -33,6 +40,10 @@ export const PortfolioConstructor = () => {
 					/>
 				)
 			}
+			<AddCurrencyBlock
+				addCurrency={currencyName => dispatch(addCurrency(currencyName))}
+				currenciesActive={currenciesList}
+			/>
 		</PortfolioContainerPaper>
 	);
 };
